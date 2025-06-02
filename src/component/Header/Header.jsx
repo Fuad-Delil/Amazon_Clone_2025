@@ -8,16 +8,16 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import classes from "./Header.module.css";
 import LowerHead from "./LowerHead";
 import { DataContext } from "../DataProvider/DataProvider";
+import { auth } from "../../utility/firebase";
 
 function Header() {
-
-  const [{basket},dispatch] = useContext(DataContext)
+  const [{ user, basket }, dispatch] = useContext(DataContext);
   // console.log(basket.length)
 
-  const totalItem = basket?.reduce((amount,item)=>{
-    return item.amount + amount
-  },0)
-  
+  const totalItem = basket?.reduce((amount, item) => {
+    return item.amount + amount;
+  }, 0);
+
   return (
     <section className={classes.fixed}>
       <section className={classes.outerContainer}>
@@ -48,18 +48,22 @@ function Header() {
           <div className={classes.flag}>
             <img src={USAflag} alt="" />
             <p>EN </p>
-            <select name="" id="">
-              <option value=""></option>
-            </select>
+            
           </div>
           <div className={classes.cart_side}>
-            <Link to="/auth">
+            <Link to={!user && "/auth"}>
               <div>
-                <p>Hello, Sign In</p>
-                <span>Account & Lists</span>
-                <select name="" id="">
-                  <option value=""></option>
-                </select>
+                {user ? (
+                  <>
+                    <p> hello, {user?.email?.split("@")[0]}</p>
+                    <span onClick={() => auth.signOut()}>Sign Out</span>
+                  </>
+                ) : (
+                  <>
+                    <p>hello,Sign In</p>
+                    <span>Account & Lists</span>
+                  </>
+                )}
               </div>
             </Link>
             <Link to="/Orders">

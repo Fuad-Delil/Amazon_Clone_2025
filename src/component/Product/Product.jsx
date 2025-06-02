@@ -15,10 +15,10 @@ function Product() {
         // console.log(res)
         setProducts(res.data);
         setIsLoading(false);
-        console.log(products);
+        // console.log(products);
       })
       .catch((err) => {
-        console.log("err >>>", err);
+        // console.log("err >>>", err);
         setIsLoading(false);
       });
   }, []);
